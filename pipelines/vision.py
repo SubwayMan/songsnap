@@ -7,7 +7,7 @@ load_dotenv()
 client = OpenAI()
 client.api_key = os.getenv("OPENAI_API_KEY")
 
-def describe_image(img_url):
+def desc_img(img_url):
     response = client.chat.completions.create(
                     model="gpt-4-vision-preview",
                     messages=[
@@ -27,11 +27,9 @@ def describe_image(img_url):
                     max_tokens=300,
     )
 
-    print(response)
-
-    return response.choices[0]
+    return response.choices[0].message.content
 
 img_url = 'https://www.trumanlibrary.gov/sites/default/files/styles/tiff_conversion/public/photographs/2016/2016-266.tif.jpg?itok=75tRRJY5'
-image_desc = describe_image(img_url)
+image_desc = desc_img(img_url)
 
 print(image_desc)
