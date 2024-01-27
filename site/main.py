@@ -27,6 +27,15 @@ oauth.register(
 
 @app.route("/")
 def homepage():
+
+    if session.get("user"):
+        print(json.dumps(session.get("user")))
+        return redirect("/albums")
+    else:
+        return redirect("/login")
+
+@app.route("/login")
+def login():
     return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/callback", methods=["GET", "POST"])
@@ -35,7 +44,7 @@ def callback():
     session["user"] = token
     return redirect("/")
 
-@app.route("/login")
+@app.route("/loginform")
 def login_page():
     return oauth.auth0.authorize_redirect(
         redirect_uri=url_for("callback", _external=True)
@@ -60,7 +69,7 @@ def logout():
 
 @app.route("/albums")
 def albums():
-    return render_template("albums.html")
+    return render_template("albums.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 @app.route("/album")
 def album_single():
