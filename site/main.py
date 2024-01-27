@@ -8,7 +8,7 @@ def homepage():
 
 @app.route("/login")
 def login_page():
-    return "Login"
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)
