@@ -60,6 +60,7 @@ body{
     justify-content: center;
     align-items: center;
     margin-top: 25rem;
+	display: none;
 }
 .upload_section {
     width: 100%;
@@ -82,9 +83,25 @@ body{
     margin-bottom: 1rem;
 }
 
-@import "compass/css3";
- 
- html, body {
+.upload-button {
+    padding: 20px 40px;
+    background-color: var(--Accent);
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+	background-color: #1aa34a;
+}
+
+html, body {
 	 min-height: 100%;
 }
  .loader {
@@ -97,6 +114,7 @@ body{
 	 width: 175px;
 	 height: 100px;
      margin-top: 15rem;
+	 display: none;
 }
  .loader span {
 	 display: block;

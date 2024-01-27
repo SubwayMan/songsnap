@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='upload.js') }}"></script>
     <title>Songsnap</title>
 </head>
 <body>
@@ -13,6 +13,9 @@
             <li><a>Songsnap</a></li>
         </ul>
     </div>
+
+    <input class="upload-button" type="file" accept="image/*" onchange="handleImageUpload(event)"/>
+
     <div class="loader">
         <span></span>
         <span></span>
@@ -33,19 +36,19 @@
     <div class="upload_bar">
         <div class="upload_section">
             <p class="upload_text">Image Upload</p>
-            <div class="load"></div>
+            <div class="load" id="load1"></div>
         </div>
         <div class="upload_section">
             <p class="upload_text">GPT-4 Vision</p>
-            <div class="load"></div>
+            <div class="load" id="load2"></div>
         </div>
         <div class="upload_section">
             <p class="upload_text">Cohere Summary</p>
-            <div class="load"></div>
+            <div class="load" id="load3"></div>
         </div>
         <div class="upload_section">
             <p class="upload_text">GPT-3.5 Generation</p>
-            <div class="load"></div>
+            <div class="load" id="load4"></div>
         </div>
     </div>
 </body>
