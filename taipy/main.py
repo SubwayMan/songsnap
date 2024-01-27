@@ -1,10 +1,9 @@
 from taipy import Gui
+from pages.login_md import *
+from pages.uploading_md import *
+from pages.albums_md import *
+from pages.single_album_md import *
 
-
-login_md = "# Login"
-uploading_md = "# Upload"
-single_album_md = "# Album"
-albums_md = "# My Albums"
 
 pages = {
     "login": login_md,
