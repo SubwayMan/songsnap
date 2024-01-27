@@ -6,8 +6,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <title>Songsnap</title>
+    <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+    <script type="text/javascript">
+        var auth0Client = new auth0.WebAuth({
+        clientID: '{yourClientId}',
+        domain: '{yourDomain}'
+        });
+        auth0Client.crossOriginVerification();
+    </script>
 </head>
 <body>
+    {% if session %}
     <div class="login">
         <div class="login-form">
             <input type="username" placeholder="username" required><br>
@@ -18,8 +27,17 @@
     <div class="navbar">
         <ul>
             <li><a>Songsnap</a></li>
+            <li><a href="/logout" id="qsLogoutBtn">Logout</a></li>
         </ul>
     </div>
+    {% else %}
+    <div class="navbar">
+        <ul>
+            <li><a>Songsnap</a></li>
+            <li><a href="/login" id="qsLoginBtn">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
 </body>
 </html>
 
