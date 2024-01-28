@@ -10,6 +10,7 @@ html{
 body{
 	background-color: var(--Background);
 	font-family: 'Poppins', sans-serif;
+    padding:0;
 }
 .navbar{
 	width: 100%;
@@ -118,16 +119,12 @@ body{
 .highlight{
     color:var(--Accent);
 }
-.hook{
-    background-image: url("background.png");
-    background-size: contain;
+.fancy{
+    background-image: url("albumsbg.png");
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    height: 40rem;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
+    background-attachment: fixed;
 }
 .hook h3{
     font-size: 4rem;
