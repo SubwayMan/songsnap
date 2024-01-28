@@ -70,3 +70,29 @@ body{
 	margin: 0 auto;
 	position: relative;
 }
+
+.playlist-wrap {
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.playlists {
+	display:flex;
+	flex-wrap:wrap;
+	align-items: center;
+    justify-content: center;
+}
+
+.playlist {
+	margin: 1rem;
+	background-color: var(--Text);
+	padding: 2rem;
+	padding-top: 2rem;
+	border-radius: 1rem;
+	font-size: 2rem;
+}
+
+.space {
+	height: 7rem;
+}
