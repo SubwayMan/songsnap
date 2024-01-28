@@ -1,10 +1,11 @@
 from __main__ import app
-from flask import request, jsonify
+from flask import request, jsonify, session
 from pipelines.songGen import gen_songs, gen_prompt
 from pipelines.summary import summarize_desc
 from pipelines.vision import desc_img
 from pipelines.spotify import create_playlist, \
         delete_playlist, get_token, get_uri, add_song_to_playlist
+from pipelines.dbFunctions import *
 
 @app.route("/songsnapapi/analyse-image", methods=["POST"])
 def analyse_image_endpoint():
@@ -57,7 +58,8 @@ def create_playlist_endpoint():
     songs = request.json.get("content")
     token = get_token()
 
-    playlist = create_playlist(user_id, token)
+    playlist = create_playlist(token)
+    print(playlist)
     for song_and_artist in songs.split("\n"):
         result = get_uri(token, song_and_artist)
         if result:
@@ -67,4 +69,17 @@ def create_playlist_endpoint():
         "playlist_link": playlist["external_urls"]["spotify"],
     }
     return jsonify(ret)
+
+@app.route("/songsnapapi/get-playlist", methods=["GET"])
+def get_playlist_endpoint():
+    if session.get("user"):
+        print(session.get("user")["userinfo"]["sub"]) # get auth0 id
+    return jsonify({"placeholder": "urmom"})
+    desc = request.json.get("content")
+    if desc:
+        result = gen_songs(desc)
+        return jsonify({
+            "data": result
+        })
+    return "No provided text", 400
 
