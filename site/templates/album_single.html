@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='album.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='album.css') }}">
         <script src="{{ url_for('static', filename='album.js') }}"></script>
         <title>Songsnap</title>
     </head>
@@ -13,6 +14,28 @@
             <li><h3>Songsnap</h3></li>
             <li><a href="/logout" id="qsLogoutBtn">Logout</a></li>
         </ul>
-    </div>
+      </div>
+      <div class="space">
+      </div>
+
+      <div class = "big-wrapper">
+        <div class = "playlist-wrap">
+          <button class = "back-button" type = "button">⬅</button>
+          <div class="playlist">
+            <img src="https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__" alt="Playlist Image" class = "playlist-img">
+            <h3>Sus Amogus</h3>
+          </div>
+        </div>
+        <iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/1UKzlcuMNF7mZa4t2ojyoD?utm_source=generator" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+
+      <!-- <div class = "playlist-wrap">
+        <button class = "back-button" type = "button">⬅</button>
+        <div class="playlist">
+          <img src="https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__" alt="Playlist Image" class = "playlist-img">
+          <h3>Sus Amogus</h3>
+        </div>
+      </div>
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/1UKzlcuMNF7mZa4t2ojyoD?utm_source=generator" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> -->
     </body>
 </html>
