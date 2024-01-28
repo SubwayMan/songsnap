@@ -23,17 +23,24 @@ function imgToURI(img) {
     });
 }
 
-
 async function handleImageUpload(event) {
     const file = event.target.files[0];
     const uploadButton = document.querySelector('.upload-button');
     uploadButton.style.display = 'none';
+
+    const songs_label = document.querySelector('.songs-label');
+    songs_label.style.display = 'none';
+
+    const songs_range = document.querySelector('.songs-range');
+    songs_range.style.display = 'none';
 
     const loader = document.querySelector('.loader');
     loader.style.display = 'block';
 
     const uploadBar = document.querySelector('.upload_bar');
     uploadBar.style.display = 'flex';
+
+    num_songs = document.querySelector('.songs-range').value;
 
     imgToURI(file)
       .then((image_url) => {

@@ -14,9 +14,10 @@
             <li><a href="/logout" id="qsLogoutBtn">Logout</a></li>
         </ul>
     </div>
-    <div class="space">
 
     <input class="upload-button" type="file" accept="image/*" onchange="handleImageUpload(event)"/>
+    <output class='songs-label' for="points">Number of Songs (10)</output>
+    <input class='songs-range' type="range" id="points" name="points" min="1" max="20" oninput="this.previousElementSibling.value = `Number of Songs (${this.value})`">
 
     <div class="loader">
         <span></span>
@@ -50,8 +51,7 @@
         </div>
         <div class="upload_section">
             <p class="upload_text">Kintone Storage</p>
-            <div class="load" id="load4"></div>
-        </div>
+        <div class="load" id="load4"></div>
     </div>
 </body>
 </html>
