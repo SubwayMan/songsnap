@@ -7,7 +7,9 @@ load_dotenv()
 client = OpenAI()
 client.api_key = os.getenv("OPENAI_API_KEY")
 
+# add flask endpoint
 def desc_img(img_url):
+    print(img_url)
     response = client.chat.completions.create(
                     model="gpt-4-vision-preview",
                     messages=[
@@ -29,7 +31,8 @@ def desc_img(img_url):
 
     return response.choices[0].message.content
 
-img_url = 'https://www.trumanlibrary.gov/sites/default/files/styles/tiff_conversion/public/photographs/2016/2016-266.tif.jpg?itok=75tRRJY5'
-image_desc = desc_img(img_url)
+if __name__=='__main__':
+  img_url = 'https://www.trumanlibrary.gov/sites/default/files/styles/tiff_conversion/public/photographs/2016/2016-266.tif.jpg?itok=75tRRJY5'
+  image_desc = desc_img(img_url)
 
-print(image_desc)
+  print(image_desc)

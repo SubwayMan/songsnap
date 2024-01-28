@@ -7,10 +7,12 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 KINTONE_API = os.environ.get("KINTONE_TOKEN")
+KINTONE_URL = "https://songsnap.kintone.com"
 """
 Function to add a user to the database.
 """
 def create_database_user(user_id):
+
     pass
 
 """

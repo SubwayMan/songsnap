@@ -24,6 +24,7 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
+from rest import *
 
 @app.route("/")
 def homepage():

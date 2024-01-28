@@ -1,17 +1,79 @@
-function vision(img) {
-    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+function imgToURI(img) {
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(img);
+    });
 }
 
-function summarize(img) {
-    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+function vision(url) {
+    urlJSON = {'img_url': url}
+    return new Promise(resolve => {
+        fetch('/songsnapapi/analyse-image', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(urlJSON),
+          })
+            .then(data => {
+              return data;
+            })
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => {
+              console.error('Error:', error.message);
+            });
+    });
 }
 
-function genSongs(img) {
-    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+function summarize(desc) {
+    descJSON = {'content': desc}
+    return new Promise(resolve => {
+        fetch('/songsnapapi/summarise', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(descJSON),
+          })
+            .then(data => {
+              return data;
+            })
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => {
+              console.error('Error:', error.message);
+            });
+    });
+}
+
+function genSongs(desc) {
+    descJSON = {'content': desc}
+    return new Promise(resolve => {
+        fetch('/songsnapapi/generate-songs', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(descJSON),
+          })
+            .then(data => {
+              return data;
+            })
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => {
+              console.error('Error:', error.message);
+            });
+    });
 }
 
 function uploadDB(img, description, summary, songs) {
-    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+    return new Promise(resolve => setTimeout(resolve, 20000000, 'my content'))
 }
 
 async function handleImageUpload(event) {
@@ -29,8 +91,10 @@ async function handleImageUpload(event) {
     const bar2 = document.querySelector('#load2');
     const bar3 = document.querySelector('#load3');
     const bar4 = document.querySelector('#load4');
-    
-    const description = await vision(file);
+
+    const URI = await imgToURI(file);
+
+    const description = await vision(URI);
     bar1.style.backgroundColor = '#1DB954';
 
     const summary = await summarize(description);
