@@ -4,7 +4,7 @@ from pipelines.songGen import gen_songs, gen_prompt
 from pipelines.summary import summarize_desc
 from pipelines.vision import desc_img
 from pipelines.spotify import create_playlist, \
-        delete_playlist, get_token, get_uri, add_song_to_playlist
+        delete_playlist, get_uri, add_song_to_playlist
 from pipelines.dbFunctions import *
 
 @app.route("/songsnapapi/analyse-image", methods=["POST"])
@@ -56,13 +56,15 @@ def generate_songs_endpoint():
 @app.route("/songsnapapi/create-playlist", methods=["POST"])
 def create_playlist_endpoint():
     songs = request.json.get("content")
-    token = get_token()
+    token = session["authorization_header"]
+    user_id = session["spotify_id"]
 
-    playlist = create_playlist(token)
-    print(playlist)
+    playlist = create_playlist(token, user_id)
+    print("PLAYLIST", playlist)
     for song_and_artist in songs.split("\n"):
         result = get_uri(token, song_and_artist)
         if result:
+            print("SONG FOUND", result)
             add_song_to_playlist(token, playlist["id"], result)
     ret = {
         "playlist_id": playlist["id"],

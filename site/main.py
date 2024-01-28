@@ -7,6 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 from urllib.parse import quote_plus, urlencode
 from werkzeug.security import check_password_hash, generate_password_hash
 from apis.spotify_client import SpotifyClient
+from pipelines.spotify import get_user_id
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -64,6 +65,8 @@ def spotify_callback():
     spotify_client.get_authorization(auth_token)
     authorization_header = spotify_client.authorization_header
     session['authorization_header'] = authorization_header
+    user_id = get_user_id(authorization_header)
+    session["spotify_id"] = user_id
     return redirect("/albums")
 
 

@@ -10,24 +10,12 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 user_id = os.getenv("USER_ID")
 
-def get_token(): 
-    auth_string = client_id + ":" + client_secret
-    auth_bytes = auth_string.encode("utf-8")
-    auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
-
-    url = "https://accounts.spotify.com/api/token"
-    headers = {
-        "Authorization": "Basic " + auth_base64,
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    data = {"grant_type": "client_credentials"}
-    result = post(url, headers=headers, data=data)
-    json_result = json.loads(result.content)
-    token = json_result["access_token"]
-    return token
 
 def get_auth_header(token):
-    return {"Authorization": "Bearer " + token}
+    print("CALL FOR TOKEN", token, "\n\n\n")
+    if type(token) == "str":
+        return eval("{" + token + "}")["Auth"]
+    return token
 
 def get_link(token, name_and_artist):
     url = "https://api.spotify.com/v1/search"
@@ -72,7 +60,7 @@ def add_song_to_playlist(token, playlist_id, uri):
 def create_playlist(token, user_id):
     url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
     headers = get_auth_header(token)
-    result = post(url, headers=headers)
+    result = post(url, headers=headers, json={"name": "SongSnap"})
     json_result = json.loads(result.content)
     return json_result
 
@@ -91,13 +79,9 @@ def get_user_id(token):
     return json_result
 
 
-token = get_token()
-
-playlist = create_playlist(token, "31oiujwbiwvgqqhz2tavenyxqgey")
 # - playlist["external_urls"]["spotify"]
 # - playlist["id"]
 
-print(playlist)
 
 # song_link = get_link(token, "Safety Dance by Men Without Hats")
 # song_uri = get_uri(token, "Safety Dance by Men Without Hats")
