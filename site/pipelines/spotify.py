@@ -69,7 +69,7 @@ def add_song_to_playlist(token, playlist_id, uri):
     json_result = json.loads(result.content)
     return json_result
 
-def create_playlist(token):
+def create_playlist(token, user_id):
     url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
     headers = get_auth_header(token)
     result = post(url, headers=headers)
@@ -86,11 +86,11 @@ def delete_playlist(token, playlist_id):
 
 token = get_token()
 
-# playlist = create_playlist(token, "31oiujwbiwvgqqhz2tavenyxqgey")
+playlist = create_playlist(token, "31oiujwbiwvgqqhz2tavenyxqgey")
 # - playlist["external_urls"]["spotify"]
 # - playlist["id"]
 
-# print(playlist)
+print(playlist)
 
 # song_link = get_link(token, "Safety Dance by Men Without Hats")
 # song_uri = get_uri(token, "Safety Dance by Men Without Hats")
