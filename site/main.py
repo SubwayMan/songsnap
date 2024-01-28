@@ -6,8 +6,11 @@ from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from urllib.parse import quote_plus, urlencode
 from werkzeug.security import check_password_hash, generate_password_hash
+<<<<<<< Updated upstream
 from apis.spotify_client import SpotifyClient
 from pipelines.spotify import get_user_id
+=======
+>>>>>>> Stashed changes
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -26,11 +29,6 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
-client_id = env.get('CLIENT_ID')
-client_secret = env.get('CLIENT_SECRET')
-
-spotify_client = SpotifyClient(client_id, client_secret, port=5000)
-
 from rest import *
 
 
@@ -44,19 +42,14 @@ def homepage():
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True, provider="auth0")
+        redirect_uri=url_for("callback", _external=True)
     )
-
-@app.route("/login/spotify")
-def login_spotify():
-    auth_url = spotify_client.get_auth_url()
-    return redirect(auth_url)
-
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+<<<<<<< Updated upstream
     return redirect("/login/spotify")
 
 @app.route("/callback/spotify", methods=["GET", "POST"])
@@ -69,6 +62,9 @@ def spotify_callback():
     session["spotify_id"] = user_id
     return redirect("/albums")
 
+=======
+    return redirect("/")
+>>>>>>> Stashed changes
 
 @app.route("/logout")
 def logout():
