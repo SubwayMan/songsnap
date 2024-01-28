@@ -119,6 +119,12 @@ body{
     border-radius: 1rem;
     border-width: 0rem;
     margin: 1rem 2rem 2rem 2rem;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.back-button:hover {
+	background-color: green;
 }
 
 .spotify-embed {
