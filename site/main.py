@@ -24,6 +24,7 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
+from rest import *
 
 @app.route("/")
 def homepage():
@@ -80,4 +81,5 @@ def upload():
     return render_template("upload.html")
 
 if __name__ == "__main__":
+    print(app.url_map)
     app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)
