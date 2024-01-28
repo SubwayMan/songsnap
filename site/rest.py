@@ -4,7 +4,7 @@ from pipelines.songGen import gen_songs, gen_prompt
 from pipelines.summary import summarize_desc
 from pipelines.vision import desc_img
 from pipelines.spotify import create_playlist, \
-        delete_playlist, get_token, get_uri, add_song_to_playlist
+        delete_playlist, get_uri, add_song_to_playlist
 from pipelines.dbFunctions import *
 
 @app.route("/songsnapapi/analyse-image", methods=["POST"])
@@ -55,11 +55,14 @@ def generate_songs_endpoint():
 
 @app.route("/songsnapapi/create-playlist", methods=["POST"])
 def create_playlist_endpoint():
-    songs = request.json.get("content")
-    token = get_token()
+    auth0 = session
+    print(auth0)
+    songs = request.json.get("content").strip()
+    imageURI = request.json.get("image")
+    token = session["authorization_header"]
+    user_id = session["spotify_id"]
 
-    playlist = create_playlist(token)
-    print(playlist)
+    playlist = create_playlist(token, user_id)
     for song_and_artist in songs.split("\n"):
         result = get_uri(token, song_and_artist)
         if result:
@@ -68,18 +71,38 @@ def create_playlist_endpoint():
         "playlist_id": playlist["id"],
         "playlist_link": playlist["external_urls"]["spotify"],
     }
+    print("SESSION:   ", session.get("user"))
+    auth0 = session.get("user")["userinfo"]["sub"] 
+    insert_playlist(ret["playlist_id"], "songsnap", imageURI, ret["playlist_link"])
+    userdata = get_user(auth0).data
+    userdata["playlist_ids"].append(ret["playlist_id"])
+    update_user(auth0, "", "", userdata["playlist_ids"])
+
     return jsonify(ret)
 
-@app.route("/songsnapapi/get-playlist", methods=["GET"])
+@app.route("/songsnapapi/get-playlists", methods=["GET"])
+def get_playlists_endpoint():
+    if not session.get("user"):
+        return "Not logged in", 400
+
+    auth0 = session.get("user")["userinfo"]["sub"]
+    db_user = get_user(auth0).data
+    if not db_user:
+        insert_user(auth0, "", "", [])
+        db_user = get_user(auth0).data
+    db_user = db_user[0]
+    return jsonify({"playlist_ids": db_user["playlist_ids"]})
+
+
+@app.route("/songsnapapi/get-playlist", methods=["POST"])
 def get_playlist_endpoint():
-    if session.get("user"):
-        print(session.get("user")["userinfo"]["sub"]) # get auth0 id
-    return jsonify({"placeholder": "urmom"})
-    desc = request.json.get("content")
-    if desc:
-        result = gen_songs(desc)
-        return jsonify({
-            "data": result
-        })
-    return "No provided text", 400
+    playlist_id = request.json.get("playlist_id")
+    db_playlist = get_playlist(playlist_id).data
+    if not db_playlist:
+        return "No playlist found", 400
+    return jsonify({
+        "image_url": db_playlist["picture_url"],
+        "spotify_url": db_playlist["spotify_url"],
+        "name": db_playlist["name"]})
+
 

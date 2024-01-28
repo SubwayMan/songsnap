@@ -1,7 +1,22 @@
-var playlists = [{name: "Hello", img: "https://media.istockphoto.com/id/1431567498/vector/vector-illustration-of-musical-notes-on-white-background.jpg?s=612x612&w=0&k=20&c=E4Qx8E7OJm-itMPylpaZhNIU8mkJQt5XctWlKLLa1I8=", id: "Hello"},
-                {name: "New Playlist", img: 'https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__', id: "NewPlaylist"},
-                {name: "New Playlist", img: 'https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__', id: "NewPlaylist"}];
+var playlists = [{name: "Classical", img: "https://media.istockphoto.com/id/1431567498/vector/vector-illustration-of-musical-notes-on-white-background.jpg?s=612x612&w=0&k=20&c=E4Qx8E7OJm-itMPylpaZhNIU8mkJQt5XctWlKLLa1I8=", id: "Hello"},
+                {name: "Calming Music", img: 'https://w0.peakpx.com/wallpaper/115/408/HD-wallpaper-iceberg-minimalist.jpg', id: "NewPlaylist"},
+                {name: "Pac-man", img: 'https://static.wixstatic.com/media/a4f877_011744a8632946aeae314e1792963fb0~mv2.jpg/v1/fill/w_816,h_800,al_c,q_85/a4f877_011744a8632946aeae314e1792963fb0~mv2.jpg', id: "NewPlaylist"},
+                {name: "Donkey Kong", img: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Donkey_Kong_Gameplay.png/220px-Donkey_Kong_Gameplay.png', id: "DK"}];
 
+function getData(url) {
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  });
+}
 function Playlist(name, img, id) {
     this.name = name;
     this.img = img;
@@ -36,6 +51,12 @@ function printStuff() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+  getData("/songsnapapi/get-playlists")
+    .then((data) => {
+      console.log(data.data); 
+    })
+});
 // for (var i = 0; i < playlists.length; i++) {
 //     var playlist = document.createElement("div");
 //     var plImg = document.createElement("img");

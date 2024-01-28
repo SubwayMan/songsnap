@@ -86,7 +86,7 @@ body{
 }
 
 .playlist {
-	margin: 0rem 2rem;
+	margin: 2rem 2rem;
 	background-color: var(--Text);
 	padding: 2rem;
 	padding-top: 2rem;
@@ -105,6 +105,7 @@ body{
 	justify-content: left;
     width: 30%;
     flex-wrap: wrap;
+    margin-bottom: auto;
 }
 
 .space {
@@ -117,7 +118,13 @@ body{
     font-size: 2rem;
     border-radius: 1rem;
     border-width: 0rem;
-    margin: 1rem 2rem 0rem 2rem;
+    margin: 1rem 2rem 2rem 2rem;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.back-button:hover {
+	background-color: green;
 }
 
 .spotify-embed {
@@ -132,4 +139,5 @@ body{
 .big-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
 }

@@ -6,6 +6,10 @@ from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from urllib.parse import quote_plus, urlencode
 from werkzeug.security import check_password_hash, generate_password_hash
+from apis.spotify_client import SpotifyClient
+from pipelines.spotify import get_user_id
+from pipelines.dbFunctions import get_user, insert_user
+
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -24,6 +28,11 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
+client_id = env.get('CLIENT_ID')
+client_secret = env.get('CLIENT_SECRET')
+
+spotify_client = SpotifyClient(client_id, client_secret, port=5000)
+
 from rest import *
 
 
@@ -37,14 +46,35 @@ def homepage():
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
+        redirect_uri=url_for("callback", _external=True, provider="auth0")
     )
+
+@app.route("/login/spotify")
+def login_spotify():
+    auth_url = spotify_client.get_auth_url()
+    return redirect(auth_url)
+
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
+    print("LENGTH:", len(token))
     session["user"] = token
-    return redirect("/")
+    user = get_user(session.get("user")["userinfo"]["sub"]).data
+    if not user:
+        insert_user(session.get("user")["userinfo"]["sub"], "", "", [])
+    return redirect("/login/spotify")
+
+@app.route("/callback/spotify", methods=["GET", "POST"])
+def spotify_callback():
+    auth_token = request.args['code']
+    spotify_client.get_authorization(auth_token)
+    authorization_header = spotify_client.authorization_header
+    session['authorization_header'] = authorization_header
+    user_id = get_user_id(authorization_header)
+    session["spotify_id"] = user_id
+    return redirect("/albums")
+
 
 @app.route("/logout")
 def logout():
@@ -69,7 +99,9 @@ def albums():
 
 @app.route("/album")
 def album_single():
-    return render_template("album_single.html")
+    spotify_id = request.args.get("playlist")
+    print(spotify_id)
+    return render_template("album_single.html", spotify_id = spotify_id)
 
 @app.route("/upload")
 def upload():

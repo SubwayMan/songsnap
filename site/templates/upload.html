@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
     <script src="{{ url_for('static', filename='upload.js') }}"></script>
@@ -10,7 +11,7 @@
 <body>
     <div class="navbar">
         <ul>
-            <li><a>Songsnap</a></li>
+            <li><a href="/albums">Songsnap</a></li>
             <li><a href="/logout" id="qsLogoutBtn">Logout</a></li>
         </ul>
     </div>
