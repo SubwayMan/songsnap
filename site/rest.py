@@ -7,7 +7,7 @@ from pipelines.vision import desc_img
 
 @app.route("/songsnapapi/summarise", methods=["POST"])
 def summarise_endpoint():
-    print(request.json)
+    # print(request.json)
     desc = request.json.get("content")
     if desc:
         result = summarize_desc(desc)
@@ -18,7 +18,7 @@ def summarise_endpoint():
 
 @app.route("/songsnapapi/analyse-image", methods=["POST"])
 def analyse_image_endpoint():
-    print(request.json)
+    # print(request.json)
     url = request.json.get("img_url")
     if url: 
         result = desc_img(url)
