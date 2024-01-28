@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
+{% macro playlist(name = "New Playlist", img = "https://media.istockphoto.com/id/1431567498/vector/vector-illustration-of-musical-notes-on-white-background.jpg?s=612x612&w=0&k=20&c=E4Qx8E7OJm-itMPylpaZhNIU8mkJQt5XctWlKLLa1I8=") -%}
+    <div class="playlist">
+        <img src="{{img}}" alt="Playlist 1" width="250rem" height="250rem">
+        <h3>{{name}}</h3>
+    </div>
+{%- endmacro %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='albums.js') }}"></script>
     <title>Songsnap</title>
 </head>
 <body>
@@ -19,18 +27,17 @@
     </div>
     <div class="playlist-wrap">
         <div class="playlists">
-            <div class="playlist">
+            <div class="playlist" onclick="addToPlaylist(new Playlist('Playlist', 'https://media.istockphoto.com/id/1431567498/vector/vector-illustration-of-musical-notes-on-white-background.jpg?s=612x612&w=0&k=20&c=E4Qx8E7OJm-itMPylpaZhNIU8mkJQt5XctWlKLLa1I8=', 'Hello'))">
                 <img src="https://png.pngtree.com/png-vector/20220624/ourmid/pngtree-add-new-button-plus-purchase-png-image_5324297.png" alt="Add Playlist" width = "250rem" height = "250rem">
                 <h3>New Playlist</h3>
             </div>
-            {% macro playlist(name, img) -%}
-            <div class="playlist">
-                <img src="{{img}}" alt="Playlist 1" width="250rem" height="250rem">
-                <h3>{{name}}</h3>
-            </div>
-            {%- endmacro %}
-            {{playlist("Playlist", 'https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__')}}
+            {% for pl in playlists %}
+                {{Playlist(pl.name, pl.img)}}
+            {% endfor %}
+            <!-- {{playlist("Playlist", 'https://s3-alpha-sig.figma.com/img/7064/f6f8/39d00f85d1e1d4d73376dfb1da93af17?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YpgwpCdX9~izElBIiDYuxxeRFtWbX4EVdDjDFQ2GyCjYjS5FMs4vrpNJDbYGgCM4Lwh5jK-7OFIC5c5dxVW-Zrd3DYL7O7vNjvwW~7d~x~NmbvFy6M6PGRBnpPG~f5N7zogKXjZZcp9TCiflhQIhM~SVz99zpfHhscJ~RlzURXBuTy9bi6MKYHf48tC7OYBhxF~0ljPmr0AWhjj5gSzIgmUalyuMSxfQsDbkJGPiaOyu4Oj45f9TlBXMDK6nwSYQLn5nmckuE0nQg1OxythzhXPgm68-xPKBN9qgyRXWoFzF78po1y1U6eASW22LCIkC-1A3bek2-~gDl9oQQQ~7Vg__')}}
             {{playlist("Sus Amogus", 'https://static.wikia.nocookie.net/among-us-wiki/images/7/72/Black_old_design.png')}}
+            {{playlist()}}
+            {{playlist()}} -->
         </div>
     </div>
     
