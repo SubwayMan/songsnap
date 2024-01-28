@@ -10,7 +10,6 @@ html{
 body{
 	background-color: var(--Background);
 	font-family: 'Poppins', sans-serif;
-    padding:0;
 }
 .navbar{
 	width: 100%;
@@ -86,31 +85,13 @@ body{
 	position: relative;
 }
 
-.playlist-wrap {
-	display:flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.playlists {
-	display:flex;
-	flex-wrap:wrap;
-	align-items: center;
-    justify-content: center;
-}
-
 .playlist {
-	margin: 1rem;
+	margin: 0rem 2rem;
 	background-color: var(--Text);
 	padding: 2rem;
 	padding-top: 2rem;
 	border-radius: 1rem;
 	font-size: 2rem;
-    transition: all 0.35s;
-    z-index: 1;
-}
-.playlist:hover{
-	transform: translateY(-1rem);
 }
 
 .playlist-img {
@@ -118,23 +99,37 @@ body{
 	height: 17rem;
 }
 
+.playlist-wrap {
+	display:flex;
+	align-items: start;
+	justify-content: left;
+    width: 30%;
+    flex-wrap: wrap;
+}
+
 .space {
-	height: 7rem;
+	height: 5rem;
 }
-.highlight{
-    color:var(--Accent);
+
+.back-button {
+    padding: 1rem 2rem;
+    background-color: var(--Accent);
+    font-size: 2rem;
+    border-radius: 1rem;
+    border-width: 0rem;
+    margin: 1rem 2rem 0rem 2rem;
 }
-.fancy{
-    background-image: url("albumsbg.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
+
+.spotify-embed {
+    margin: 1rem 2rem;
+    border-radius: 1rem;
+    height: 800px;
+    width: 60%;
+    display:inline-block;
+    justify-self: right;
 }
-.hook h3{
-    font-size: 4rem;
-    color:#FFF;
-    text-align: right;
-    padding: 2rem;
-    vertical-align: center;
+
+.big-wrapper {
+    display: flex;
+    justify-content: center;
 }
