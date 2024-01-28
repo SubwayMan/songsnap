@@ -70,16 +70,27 @@ def create_playlist_endpoint():
     }
     return jsonify(ret)
 
-@app.route("/songsnapapi/get-playlist", methods=["GET"])
+@app.route("/songsnapapi/get-playlists", methods=["GET"])
+def get_playlists_endpoint():
+    if not session.get("user"):
+        return "Not logged in", 400
+
+    auth0 = session.get("user")["userinfo"]["sub"]
+    db_user = get_user(auth0)
+    if not db_user:
+        insert_user(auth0, "", "", [])
+        db_user = get_user(auth0)
+    db_user = db_user[0]
+    return jsonify({"playlist_ids": db_user.data["playlist_ids"]})
+
+
+@app.route("/songsnapapi/get-playlist", methods=["POST"])
 def get_playlist_endpoint():
-    if session.get("user"):
-        print(session.get("user")["userinfo"]["sub"]) # get auth0 id
-    return jsonify({"placeholder": "urmom"})
-    desc = request.json.get("content")
-    if desc:
-        result = gen_songs(desc)
-        return jsonify({
-            "data": result
-        })
-    return "No provided text", 400
+    playlist_id = request.json.get("playlist_id")
+    db_playlist = get_playlist(playlist_id).data
+    if not db_playlist:
+        return "No playlist found", 400
+    return jsonify({
+        "image_url": db_playlist["picture_url"],
+        "spotify_url": db_playlist["spotify_url"]})
 
