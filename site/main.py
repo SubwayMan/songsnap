@@ -58,10 +58,11 @@ def login_spotify():
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
+    print("LENGTH:", len(token))
     session["user"] = token
-    user = get_user(session["user"]).data
+    user = get_user(session.get("user")["userinfo"]["sub"]).data
     if not user:
-        insert_user(session["user"], "", "", [])
+        insert_user(session.get("user")["userinfo"]["sub"], "", "", [])
     return redirect("/login/spotify")
 
 @app.route("/callback/spotify", methods=["GET", "POST"])
@@ -98,11 +99,13 @@ def albums():
 
 @app.route("/album")
 def album_single():
-    return render_template("album_single.html")
+    spotify_id = request.args.get("playlist")
+    print(spotify_id)
+    return render_template("album_single.html", spotify_id = spotify_id)
 
 @app.route("/upload")
 def upload():
     return render_template("upload.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, threaded=True, debug=True)
+    app.run(host="0.0.0.0", port=5000, threaded=True, debug=True)

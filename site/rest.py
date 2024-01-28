@@ -55,6 +55,8 @@ def generate_songs_endpoint():
 
 @app.route("/songsnapapi/create-playlist", methods=["POST"])
 def create_playlist_endpoint():
+    auth0 = session
+    print(auth0)
     songs = request.json.get("content").strip()
     imageURI = request.json.get("image")
     token = session["authorization_header"]
@@ -69,6 +71,7 @@ def create_playlist_endpoint():
         "playlist_id": playlist["id"],
         "playlist_link": playlist["external_urls"]["spotify"],
     }
+    print("SESSION:   ", session.get("user"))
     auth0 = session.get("user")["userinfo"]["sub"] 
     insert_playlist(ret["playlist_id"], "songsnap", imageURI, ret["playlist_link"])
     userdata = get_user(auth0).data
@@ -83,12 +86,12 @@ def get_playlists_endpoint():
         return "Not logged in", 400
 
     auth0 = session.get("user")["userinfo"]["sub"]
-    db_user = get_user(auth0)
+    db_user = get_user(auth0).data
     if not db_user:
         insert_user(auth0, "", "", [])
-        db_user = get_user(auth0)
+        db_user = get_user(auth0).data
     db_user = db_user[0]
-    return jsonify({"playlist_ids": db_user.data["playlist_ids"]})
+    return jsonify({"playlist_ids": db_user["playlist_ids"]})
 
 
 @app.route("/songsnapapi/get-playlist", methods=["POST"])
