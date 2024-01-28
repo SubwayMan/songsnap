@@ -8,6 +8,7 @@ load_dotenv()
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
+user_id = os.getenv("USER_ID")
 
 def get_token(): 
     auth_string = client_id + ":" + client_secret
@@ -68,7 +69,7 @@ def add_song_to_playlist(token, playlist_id, uri):
     json_result = json.loads(result.content)
     return json_result
 
-def create_playlist(token, user_id):
+def create_playlist(token):
     url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
     headers = get_auth_header(token)
     result = post(url, headers=headers)
