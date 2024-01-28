@@ -55,17 +55,15 @@ def generate_songs_endpoint():
 
 @app.route("/songsnapapi/create-playlist", methods=["POST"])
 def create_playlist_endpoint():
-    songs = request.json.get("content")
+    songs = request.json.get("content").strip()
     imageURI = request.json.get("image")
     token = session["authorization_header"]
     user_id = session["spotify_id"]
 
     playlist = create_playlist(token, user_id)
-    print("PLAYLIST", playlist)
     for song_and_artist in songs.split("\n"):
         result = get_uri(token, song_and_artist)
         if result:
-            print("SONG FOUND", result)
             add_song_to_playlist(token, playlist["id"], result)
     ret = {
         "playlist_id": playlist["id"],

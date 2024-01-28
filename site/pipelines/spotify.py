@@ -39,11 +39,15 @@ def get_uri(token, name_and_artist):
 
     query_url = url + query
     result = get(query_url, headers=headers)
-    json_result = json.loads(result.content)["tracks"]["items"][0]["uri"]
 
+    json_result = json.loads(result.content)
     if len(json_result) == 0:
         print("No song with this description exists D:")
         return None
+    if "error" in json_result:
+        return None
+
+    json_result = json_result["tracks"]["items"][0]["uri"]
     
     return json_result
 
