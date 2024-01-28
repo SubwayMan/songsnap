@@ -8,6 +8,8 @@ from urllib.parse import quote_plus, urlencode
 from werkzeug.security import check_password_hash, generate_password_hash
 from apis.spotify_client import SpotifyClient
 from pipelines.spotify import get_user_id
+from pipelines.dbFunctions import get_user, insert_user
+
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -57,6 +59,9 @@ def login_spotify():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    user = get_user(session["user"]).data
+    if not user:
+        insert_user(session["user"], "", "", [])
     return redirect("/login/spotify")
 
 @app.route("/callback/spotify", methods=["GET", "POST"])

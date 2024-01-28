@@ -41,9 +41,11 @@ async function handleImageUpload(event) {
     uploadBar.style.display = 'flex';
 
     num_songs = document.querySelector('.songs-range').value;
+    let imageURI;
 
     imgToURI(file)
       .then((image_url) => {
+        imageURI = image_url;
         return postData("/songsnapapi/analyse-image", {"img_url": image_url})}
       )
       .then((data) => {
@@ -60,7 +62,7 @@ async function handleImageUpload(event) {
       })
       .then((data) => {
         document.querySelector('#load4').style.backgroundColor = '#1DB954';
-        return postData("/songsnapapi/create-playlist", {"content": data.data})
+        return postData("/songsnapapi/create-playlist", {"image": imageURI, "content": data.data})
       })
       .then((data) => {
         console.log(data.data)

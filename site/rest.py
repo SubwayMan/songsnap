@@ -56,6 +56,7 @@ def generate_songs_endpoint():
 @app.route("/songsnapapi/create-playlist", methods=["POST"])
 def create_playlist_endpoint():
     songs = request.json.get("content")
+    imageURI = request.json.get("image")
     token = session["authorization_header"]
     user_id = session["spotify_id"]
 
@@ -70,6 +71,12 @@ def create_playlist_endpoint():
         "playlist_id": playlist["id"],
         "playlist_link": playlist["external_urls"]["spotify"],
     }
+    auth0 = session.get("user")["userinfo"]["sub"] 
+    insert_playlist(ret["playlist_id"], "songsnap", imageURI, ret["playlist_link"])
+    userdata = get_user(auth0).data
+    userdata["playlist_ids"].append(ret["playlist_id"])
+    update_user(auth0, "", "", userdata["playlist_ids"])
+
     return jsonify(ret)
 
 @app.route("/songsnapapi/get-playlists", methods=["GET"])
@@ -96,4 +103,5 @@ def get_playlist_endpoint():
         "image_url": db_playlist["picture_url"],
         "spotify_url": db_playlist["spotify_url"],
         "name": db_playlist["name"]})
+
 
