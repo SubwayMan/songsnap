@@ -112,6 +112,11 @@ body{
 	transform: translateY(-1rem);
 }
 
+.playlist-img {
+	width: 17rem;
+	height: 17rem;
+}
+
 .space {
 	height: 7rem;
 }
