@@ -1,7 +1,6 @@
 # Songsnap
 Turn your photo memories into musical blasts from the past! 🎵📷
 
-[![YouTube Video](https://www.youtube.com/watch?v=4eT1EpgSBOE)
 [![uofthacksPhoto](https://github.com/SubwayMan/songsnap/assets/62809012/15f5c19c-1130-4095-8400-fec6ebe3ffd9)](https://www.youtube.com/watch?v=4eT1EpgSBOE)
 
 ## What it Does
