@@ -19,10 +19,11 @@ body{
 	border-bottom: 3px solid rgba(255, 255, 255, 0.60);
 	background: var(--Background);
 	position: fixed;
+    z-index: 6;
 }
 .navbar ul{
 	list-style-type: none;
-	margin: 0;
+	vertical-align: middle;
 	padding: 0;
 	overflow: hidden;
 }
@@ -34,7 +35,20 @@ body{
 	color: var(--Text);
 	text-align: center;
 	margin-left: 1rem;
+    margin-top: auto;
 	margin-right: 1rem;
+	text-decoration: none;
+	transition: all 0.3s;
+}
+.navbar li h3{
+    font-size: 2.25rem;
+	font-weight: 700;
+	display: block;
+	color: var(--Text);
+	text-align: center;
+	margin-left: 1rem;
+	margin-right: 1rem;
+    margin-top: 0;
 	text-decoration: none;
 	transition: all 0.3s;
 }
@@ -91,8 +105,34 @@ body{
 	padding-top: 2rem;
 	border-radius: 1rem;
 	font-size: 2rem;
+    transition: all 0.35s;
+    z-index: 1;
+}
+.playlist:hover{
+	transform: translateY(-1rem);
 }
 
 .space {
 	height: 7rem;
+}
+.highlight{
+    color:var(--Accent);
+}
+.hook{
+    background-image: url("background.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 40rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+.hook h3{
+    font-size: 4rem;
+    color:#FFF;
+    text-align: right;
+    padding: 2rem;
+    vertical-align: center;
 }
