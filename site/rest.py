@@ -4,18 +4,6 @@ from pipelines.songGen import gen_songs, gen_prompt
 from pipelines.summary import summarize_desc
 from pipelines.vision import desc_img
 
-
-@app.route("/songsnapapi/summarise", methods=["POST"])
-def summarise_endpoint():
-    # print(request.json)
-    desc = request.json.get("content")
-    if desc:
-        result = summarize_desc(desc)
-        return jsonify({
-            "data": result
-        })
-    return "No provided description", 400
-
 @app.route("/songsnapapi/analyse-image", methods=["POST"])
 def analyse_image_endpoint():
     # print(request.json)
@@ -27,17 +15,20 @@ def analyse_image_endpoint():
         })
     return "No provided image URL", 400
 
-    
-@app.route("/songsnapapi/generate-songs", methods=["POST"])
-def generate_songs_endpoint():
+
+@app.route("/songsnapapi/summarise", methods=["POST"])
+def summarise_endpoint():
+    # print(request.json)
     desc = request.json.get("content")
     if desc:
-        result = gen_songs(desc)
+        result = summarize_desc(desc)
         return jsonify({
-            "data": result
+            "data": result,
+            "description": desc
         })
-    return "No provided text", 400
+    return "No provided description", 400
 
+    
 @app.route("/songsnapapi/generate-prompt", methods=["POST"])
 def generate_prompt_endpoint():
     text = request.json.get("content")
@@ -49,5 +40,13 @@ def generate_prompt_endpoint():
         })
     return "No provided text", 400
 
+@app.route("/songsnapapi/generate-songs", methods=["POST"])
+def generate_songs_endpoint():
+    desc = request.json.get("content")
+    if desc:
+        result = gen_songs(desc)
+        return jsonify({
+            "data": result
+        })
+    return "No provided text", 400
 
-    
