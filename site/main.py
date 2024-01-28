@@ -6,6 +6,7 @@ from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from urllib.parse import quote_plus, urlencode
 from werkzeug.security import check_password_hash, generate_password_hash
+from apis.spotify_client import SpotifyClient
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -24,24 +25,10 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
-oauth.register(
-    'spotify',
-    client_id=env.get("CLIENT_ID"),
-    client_secret=env.get("CLIENT_SECRET"),
-    request_token_params={
-        'scope': 'user-read-email',
-        "redirect_uri": "http://localhost:5000/callback",
-        "response_type": "code",
-        "client_id": env.get("CLIENT_ID"),
-        "client_secret": env.get("CLIENT_SECRET")
-    },
-    base_url='https://api.spotify.com/v1/',
-    access_token_method='POST',
-    redirect_uri="http://localhost:5000/callback",
-    access_token_url='https://accounts.spotify.com/api/token',
-    authorize_url='https://accounts.spotify.com/authorize'
-)
+client_id = env.get('CLIENT_ID')
+client_secret = env.get('CLIENT_SECRET')
 
+spotify_client = SpotifyClient(client_id, client_secret, port=5000)
 
 from rest import *
 
@@ -61,22 +48,23 @@ def login():
 
 @app.route("/login/spotify")
 def login_spotify():
-    return oauth.spotify.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True, provider="spotify")
-    )
+    auth_url = spotify_client.get_auth_url()
+    return redirect(auth_url)
+
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
-    provider = request.args.get("provider")
-    if provider == "spotify":
-        token = oauth.spotify.authorize_access_token()
-        session["spotify-user"] = token
-        return redirect("/")
-    else:
-        token = oauth.auth0.authorize_access_token()
-        session["user"] = token
-        return redirect("/login/spotify")
+    token = oauth.auth0.authorize_access_token()
+    session["user"] = token
+    return redirect("/login/spotify")
 
+@app.route("/callback/spotify", methods=["GET", "POST"])
+def spotify_callback():
+    auth_token = request.args['code']
+    spotify_client.get_authorization(auth_token)
+    authorization_header = spotify_client.authorization_header
+    session['authorization_header'] = authorization_header
+    return redirect("/albums")
 
 
 @app.route("/logout")

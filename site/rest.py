@@ -92,5 +92,6 @@ def get_playlist_endpoint():
         return "No playlist found", 400
     return jsonify({
         "image_url": db_playlist["picture_url"],
-        "spotify_url": db_playlist["spotify_url"]})
+        "spotify_url": db_playlist["spotify_url"],
+        "name": db_playlist["name"]})
 
