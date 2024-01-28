@@ -24,6 +24,25 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
+oauth.register(
+    'spotify',
+    client_id=env.get("CLIENT_ID"),
+    client_secret=env.get("CLIENT_SECRET"),
+    request_token_params={
+        'scope': 'user-read-email',
+        "redirect_uri": "http://localhost:5000/callback",
+        "response_type": "code",
+        "client_id": env.get("CLIENT_ID"),
+        "client_secret": env.get("CLIENT_SECRET")
+    },
+    base_url='https://api.spotify.com/v1/',
+    access_token_method='POST',
+    redirect_uri="http://localhost:5000/callback",
+    access_token_url='https://accounts.spotify.com/api/token',
+    authorize_url='https://accounts.spotify.com/authorize'
+)
+
+
 from rest import *
 
 
@@ -37,14 +56,28 @@ def homepage():
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
+        redirect_uri=url_for("callback", _external=True, provider="auth0")
+    )
+
+@app.route("/login/spotify")
+def login_spotify():
+    return oauth.spotify.authorize_redirect(
+        redirect_uri=url_for("callback", _external=True, provider="spotify")
     )
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
-    token = oauth.auth0.authorize_access_token()
-    session["user"] = token
-    return redirect("/")
+    provider = request.args.get("provider")
+    if provider == "spotify":
+        token = oauth.spotify.authorize_access_token()
+        session["spotify-user"] = token
+        return redirect("/")
+    else:
+        token = oauth.auth0.authorize_access_token()
+        session["user"] = token
+        return redirect("/login/spotify")
+
+
 
 @app.route("/logout")
 def logout():
