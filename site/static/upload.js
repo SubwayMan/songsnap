@@ -60,6 +60,9 @@ async function handleImageUpload(event) {
       })
       .then((data) => {
         document.querySelector('#load4').style.backgroundColor = '#1DB954';
+        return postData("/songsnapapi/create-playlist", {"content": data.data})
+      })
+      .then((data) => {
         console.log(data.data)
       });
 
