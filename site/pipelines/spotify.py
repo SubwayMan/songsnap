@@ -83,6 +83,13 @@ def delete_playlist(token, playlist_id):
     json_result = json.loads(result.content)
     return json_result
 
+def get_user_id(token):
+    url = "https://api.spotify.com/v1/me"
+    headers = get_auth_header(token)
+    result = get(url, headers=headers)
+    json_result = json.loads(result.content)["id"]
+    return json_result
+
 
 token = get_token()
 
