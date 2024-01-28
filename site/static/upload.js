@@ -1,3 +1,11 @@
+function imgToURI(img) {
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(img);
+    });
+}
+
 function vision(img) {
     return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
 }
@@ -29,8 +37,10 @@ async function handleImageUpload(event) {
     const bar2 = document.querySelector('#load2');
     const bar3 = document.querySelector('#load3');
     const bar4 = document.querySelector('#load4');
-    
-    const description = await vision(file);
+
+    const URI = imgToURI(file);
+
+    const description = await vision(URI);
     bar1.style.backgroundColor = '#1DB954';
 
     const summary = await summarize(description);
