@@ -65,7 +65,7 @@ async function handleImageUpload(event) {
         return postData("/songsnapapi/create-playlist", {"image": imageURI, "content": data.data})
       })
       .then((data) => {
-        console.log(data.data)
+      window.location.href = "http://127.0.0.1:5000/album?playlist=" + data.playlist_id
       });
 
     //window.location.href = 'albums';

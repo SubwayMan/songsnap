@@ -71,13 +71,13 @@ def create_playlist_endpoint():
         "playlist_id": playlist["id"],
         "playlist_link": playlist["external_urls"]["spotify"],
     }
-    print("SESSION:   ", session.get("user"))
+    """
     auth0 = session.get("user")["userinfo"]["sub"] 
     insert_playlist(ret["playlist_id"], "songsnap", imageURI, ret["playlist_link"])
     userdata = get_user(auth0).data
     userdata["playlist_ids"].append(ret["playlist_id"])
     update_user(auth0, "", "", userdata["playlist_ids"])
-
+    """
     return jsonify(ret)
 
 @app.route("/songsnapapi/get-playlists", methods=["GET"])

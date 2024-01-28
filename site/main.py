@@ -58,11 +58,7 @@ def login_spotify():
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
-    print("LENGTH:", len(token))
-    session["user"] = token
-    user = get_user(session.get("user")["userinfo"]["sub"]).data
-    if not user:
-        insert_user(session.get("user")["userinfo"]["sub"], "", "", [])
+    #session["user"] = token
     return redirect("/login/spotify")
 
 @app.route("/callback/spotify", methods=["GET", "POST"])
