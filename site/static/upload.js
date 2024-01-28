@@ -1,4 +1,16 @@
-function fetchData() {
+function vision(img) {
+    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+}
+
+function summarize(img) {
+    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+}
+
+function genSongs(img) {
+    return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
+}
+
+function uploadDB(img, description, summary, songs) {
     return new Promise(resolve => setTimeout(resolve, 2000, 'my content'))
 }
 
@@ -17,18 +29,18 @@ async function handleImageUpload(event) {
     const bar2 = document.querySelector('#load2');
     const bar3 = document.querySelector('#load3');
     const bar4 = document.querySelector('#load4');
-
-    bar1.style.backgroundColor = '#1DB954';
     
-    const description = await fetchData();
+    const description = await vision(file);
+    bar1.style.backgroundColor = '#1DB954';
+
+    const summary = await summarize(description);
     bar2.style.backgroundColor = '#1DB954';
 
-    const summary = await fetchData();
+    const songs = await genSongs(description);
     bar3.style.backgroundColor = '#1DB954';
 
-    const songs = await fetchData();
+    await uploadDB(file, description, summary, songs);
     bar4.style.backgroundColor = '#1DB954';
 
-    // redirect to albums.html
     window.location.href = 'albums';
 }
