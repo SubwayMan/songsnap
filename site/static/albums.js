@@ -1,7 +1,8 @@
-var playlists = [{name: "Classical", img: "https://media.istockphoto.com/id/1431567498/vector/vector-illustration-of-musical-notes-on-white-background.jpg?s=612x612&w=0&k=20&c=E4Qx8E7OJm-itMPylpaZhNIU8mkJQt5XctWlKLLa1I8=", id: "Hello"},
-                {name: "Calming Music", img: 'https://w0.peakpx.com/wallpaper/115/408/HD-wallpaper-iceberg-minimalist.jpg', id: "NewPlaylist"},
-                {name: "Pac-man", img: 'https://static.wixstatic.com/media/a4f877_011744a8632946aeae314e1792963fb0~mv2.jpg/v1/fill/w_816,h_800,al_c,q_85/a4f877_011744a8632946aeae314e1792963fb0~mv2.jpg', id: "NewPlaylist"},
-                {name: "Donkey Kong", img: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Donkey_Kong_Gameplay.png/220px-Donkey_Kong_Gameplay.png', id: "DK"}];
+var playlists = [{name: "Arcade Night", img: "/static/arcade.jpg", sid: "5QVevz6hYtUvaYlUZ2toyu", id: "Hello"},
+                {name: "A slow dance", img: '/static/dance.jpg', sid: "1DOt1RZ2E4vM8UQodQxmIk", id: "NewPlaylist"},
+                {name: "Dark City Night", img: '/static/darkcitynight.jpg', sid: "0gFQBRD9mjMWtxYsiu2wlN", id: "NewPlaylist"},
+                {name: "80s vibes", img: '/static/dudes.jpg', sid: "2lWobUd7t2lRSPI0oTi95D", id: "DK"},
+                {name: "Jazz afternoon", img: '/static/jazzyday.jpg', sid: "2vmNPx4fkgz1WuOD24mV4U", id: "Dhd"}];
 
 function getData(url) {
   return fetch(url, {
@@ -32,6 +33,9 @@ function addToPlaylist(pl) {
 function printStuff() {
     for (var i = 0; i < playlists.length; i++) {
         var playlist = document.createElement("div");
+        var anchor = document.createElement("a");
+        var nhref = "/album?playlist="+playlists[i]["sid"]
+        anchor.setAttribute("href", nhref)
         var plImg = document.createElement("img");
         var plName = document.createElement("h3")
     
@@ -44,19 +48,18 @@ function printStuff() {
     
         plName.innerHTML = playlists[i]["name"];
     
-        playlist.appendChild(plImg);
+        anchor.appendChild(plImg);
+        playlist.appendChild(anchor);
         playlist.appendChild(plName);
         
         document.getElementById("playlists").appendChild(playlist);
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  getData("/songsnapapi/get-playlists")
-    .then((data) => {
-      console.log(data.data); 
-    })
-});
+function encode(val) {
+  return encodeURIComponent(val).replace("/", "%2F")
+}
+
 // for (var i = 0; i < playlists.length; i++) {
 //     var playlist = document.createElement("div");
 //     var plImg = document.createElement("img");

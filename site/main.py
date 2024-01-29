@@ -9,6 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from apis.spotify_client import SpotifyClient
 from pipelines.spotify import get_user_id
 from pipelines.dbFunctions import get_user, insert_user
+from urllib.parse import unquote_plus
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -96,7 +97,6 @@ def albums():
 @app.route("/album")
 def album_single():
     spotify_id = request.args.get("playlist")
-    print(spotify_id)
     return render_template("album_single.html", spotify_id = spotify_id)
 
 @app.route("/upload")
