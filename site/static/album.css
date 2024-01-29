@@ -19,8 +19,19 @@ body{
 	border-bottom: 3px solid rgba(255, 255, 255, 0.60);
 	background: var(--Background);
 	position: fixed;
+  top: 0;
+
     z-index: 6;
 }
+
+.fancy{
+  background-image: url("https://media.discordapp.net/attachments/1199922685132669010/1201186021103116338/albumsbg.png?ex=65c8e6a8&is=65b671a8&hm=11b7b75bc4269315f4ef7f1e82b5d2eb2ee82990edecd123508b3d4c2f92eac8&=&format=webp&quality=lossless&width=1618&height=1130");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
 .navbar ul{
 	list-style-type: none;
 	vertical-align: middle;

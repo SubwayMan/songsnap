@@ -20,6 +20,7 @@ body{
 	background: var(--Background);
 	position: fixed;
     z-index: 6;
+  top: 0;
 }
 .navbar ul{
 	list-style-type: none;
